@@ -13,12 +13,14 @@ public class WordChooser {
 	private FileReader fileRead;
 	private BufferedReader bufferRead;
 	private ArrayList<Word> words;
+	private String category;
 	
-	public WordChooser(String category) {
+	public WordChooser(String category) {		
 		words = new ArrayList<>();
+		this.category=category;
 	}
 
-	private void OpenFile(String category) {
+	private void OpenFile() {
 
 		try {
 			File Words = new File(category + ".txt");
@@ -57,8 +59,8 @@ public class WordChooser {
 
 	}
 	
-	public Word chooseWord(String category){
-		OpenFile(category);
+	public Word chooseWord(){
+		OpenFile();
 		ReadFile();
 		Random rndm = new Random();
 		int rndmNumer = rndm.nextInt(words.size());
