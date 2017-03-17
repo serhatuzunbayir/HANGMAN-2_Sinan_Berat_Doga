@@ -11,10 +11,15 @@ public class Word {
 		this.length = content.length();
 	}
 	
-	public boolean contains(char ch){
-		
-		return false;
-	}
+	public boolean contains(char ch) {
+         for (int i = 0; i < length; i++) {
+            if (Character.toUpperCase(content.charAt(i)) == ch) {
+                return true;
+            }
+        }
+
+         return false;
+       }
 
 	public String getContent() {
 		return content;
