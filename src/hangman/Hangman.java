@@ -17,22 +17,61 @@ public class Hangman {
 		totalGuess = 0;
 	}
 
+	/**
+	 * Returns true if the word contains the given char, false otherwise.
+	 * 
+	 * @param ch
+	 *            The char to be checked.
+	 * @return boolean
+	 */
 	public boolean makeGuess(char ch) {
+		boolean result = false;
 		if (word.contains(ch)) {
 			foundLetters.add(ch);
-
+			result = true;
 		} else {
 			totalGuess++;
-			if (isFinished())
-				return true;
-
 		}
 		usedLetters.add(ch);
+		return result;
+	}
+
+	/**
+	 * Returns true if the given char was found, false otherwise.
+	 * 
+	 * @author Horse
+	 * @param ch The char to be checked.
+	 * @return
+	 */
+	public boolean wasFound(char ch) {
+		if (foundLetters.contains(ch))
+			return true;
 		return false;
 	}
 
-	public boolean isFinished() {
+	/**
+	 * Returns true if guessLimit is achieved, false otherwise.
+	 * 
+	 * @return boolean
+	 */
+	public boolean lose() {
 		return totalGuess == guessLimit;
+	}
+
+	/**
+	 * Returns true if the game is won, false otherwise.
+	 * 
+	 * @author Horse
+	 * @return boolean
+	 */
+	public boolean win() {
+		String w = word.getContent();
+		for (int i = 0; i < w.length(); i++) {
+			if (!foundLetters.contains(w.charAt(i))) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public Word getWord() {
