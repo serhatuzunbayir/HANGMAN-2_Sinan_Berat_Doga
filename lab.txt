@@ -1,0 +1,74 @@
+
+#ifndef HEADER_H
+#define HEADER_H
+
+
+
+#endif 
+
+#include <cstdlib>
+#include <iostream> 
+#include <vector>
+using namespace std;
+
+class Item {
+public:
+    string name;
+    int type;
+    int price;
+    
+ void DecItem(string name,int type,int price) {
+       this->name=name;
+       this->type=type;
+       this->price=price;
+    }
+
+ int getprice(){
+     return this->price;
+ }
+    int getType() {
+        return type;
+    }
+    string getName(){
+        return name;
+        
+    }
+   
+};
+
+class food:public Item{
+public:
+    
+    void DecFood(int price,string name) {
+       this->type=1;
+       this->price=price;
+       this->name=name;
+    }
+
+    
+};
+
+class cleaning :public Item{
+public:
+    
+      void DecFood(int price,string name) {
+       this->type=2;
+       this->price=price;
+        this->name=name;
+    }
+    
+};
+
+class book :public Item{
+public:
+    
+      void DecFood(int price,string name) {
+       this->type=3;
+       this->price=price;
+        this->name=name;
+    }
+    
+};
+
+
+
