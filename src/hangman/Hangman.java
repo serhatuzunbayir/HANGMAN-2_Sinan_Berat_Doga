@@ -8,7 +8,7 @@ public class Hangman {
 	private ArrayList<Character> foundLetters;
 	private Word word;
 	private int totalGuess;
-	private final int guessLimit = 5;
+	private final int guessLimit = 15;
 
 	public Hangman(String category) {
 		usedLetters = new ArrayList<>();
@@ -25,6 +25,9 @@ public class Hangman {
 	 * @return boolean
 	 */
 	public boolean makeGuess(char ch) {
+		if (usedLetters.contains(ch)) {
+			return false;
+		}
 		boolean result = false;
 		if (word.contains(ch)) {
 			foundLetters.add(ch);

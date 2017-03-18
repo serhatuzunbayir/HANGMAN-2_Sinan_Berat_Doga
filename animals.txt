@@ -13,8 +13,8 @@ DINOSAOUR,animals
 DOLPHIN,animals
 GORILLA,animals
 HORSE,animals
-LIZARDV,animals
-MAMMOTHV,animals
+LIZARD,animals
+MAMMOTH,animals
 MOSQUITO,animals
 RABBIT,animals
 SCORPION,animals
@@ -24,3 +24,7 @@ SNAKE,animals
 TORTOISE,animals
 ZEBRA,animals
 YAK,animals
+BADGER,animals
+BOBCAT,animals
+KANGAROO,animals
+MOOSE,animals

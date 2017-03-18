@@ -12,6 +12,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
 
 public class Game extends JFrame {
 
@@ -26,6 +27,10 @@ public class Game extends JFrame {
 	private JTextField txtfldGuess;
 	private JTextField txtfldWord;
 	private JButton btnTry;
+	private char guess;
+	private JTextField txtfldCategory;
+	private JTextArea txtareaUsedLetters;
+	private JTextArea txtareaFoundLetters;
 
 	/**
 	 * Launch the application.
@@ -62,7 +67,7 @@ public class Game extends JFrame {
 				startButtonClicked();
 			}
 		});
-		btnStart.setBounds(20, 52, 150, 29);
+		btnStart.setBounds(20, 59, 150, 29);
 		contentPane.add(btnStart);
 
 		comboBox = new JComboBox<>();
@@ -73,25 +78,30 @@ public class Game extends JFrame {
 		contentPane.add(comboBox);
 
 		lblInfo = new JLabel("");
-		lblInfo.setBounds(263, 387, 281, 16);
+		lblInfo.setBounds(122, 164, 281, 16);
 		contentPane.add(lblInfo);
 
 		txtfldGuess = new JTextField();
 		txtfldGuess.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e) {
 				char input = e.getKeyChar();
-				if (txtfldGuess.getText().length() > 0) {
-					e.consume();
-					txtfldGuess.setText(e.getKeyChar() + "");
-				}
 				if (!Character.isLetter(input)) {
 					if (input == 8) {
 						e.consume();
 						return;
 					}
+					if (input == 10) {
+						tryButtonClicked();
+						e.consume();
+						return;
+					}
 					e.consume();
 					lblInfo.setText("You must enter letter!");
+				} else if (txtfldGuess.getText().length() > 0) {
+					e.consume();
+					txtfldGuess.setText(e.getKeyChar() + "");
 				}
+				guess = input;
 			}
 		});
 		txtfldGuess.setBounds(90, 344, 130, 26);
@@ -122,6 +132,34 @@ public class Game extends JFrame {
 		JLabel lblGuess = new JLabel("guess:");
 		lblGuess.setBounds(20, 349, 61, 16);
 		contentPane.add(lblGuess);
+
+		JLabel lblCategory = new JLabel("category:");
+		lblCategory.setBounds(20, 277, 61, 16);
+		contentPane.add(lblCategory);
+
+		txtfldCategory = new JTextField();
+		txtfldCategory.setBounds(93, 268, 130, 26);
+		txtfldCategory.setEditable(false);
+		contentPane.add(txtfldCategory);
+		txtfldCategory.setColumns(10);
+
+		txtareaUsedLetters = new JTextArea();
+		txtareaUsedLetters.setBounds(263, 311, 112, 100);
+		txtareaUsedLetters.setEditable(false);
+		contentPane.add(txtareaUsedLetters);
+
+		txtareaFoundLetters = new JTextArea();
+		txtareaFoundLetters.setBounds(400, 311, 112, 100);
+		txtareaFoundLetters.setEditable(false);
+		contentPane.add(txtareaFoundLetters);
+
+		JLabel lblUsedLetters = new JLabel("used letters");
+		lblUsedLetters.setBounds(279, 277, 80, 16);
+		contentPane.add(lblUsedLetters);
+
+		JLabel lblFoundLetters = new JLabel("found letters");
+		lblFoundLetters.setBounds(412, 277, 88, 16);
+		contentPane.add(lblFoundLetters);
 	}
 
 	/**
@@ -144,7 +182,10 @@ public class Game extends JFrame {
 	}
 
 	private void tryButtonClicked() {
-		char guess = txtfldGuess.getText().charAt(0);
+		if (txtfldGuess.getText().equals("")) {
+			lblInfo.setText("enter a letter");
+			return;
+		}
 		guess = Character.toUpperCase(guess);
 		if (hangman.makeGuess(guess)) {
 			lblInfo.setText("Good Job!");
@@ -161,6 +202,9 @@ public class Game extends JFrame {
 			btnTry.setEnabled(false);
 		}
 		displayWord();
+		displayUsedLetters();
+		displayFoundLetters();
+		txtfldGuess.setText("");
 		txtfldGuess.grabFocus();
 	}
 
@@ -171,5 +215,28 @@ public class Game extends JFrame {
 		txtfldGuess.setEnabled(true);
 		displayWord();
 		txtfldGuess.grabFocus();
+		txtfldCategory.setText(hangman.getWord().getCategory());
+	}
+
+	private void displayUsedLetters() {
+		String disp = "";
+		for (Character c : hangman.getUsedLetters()) {
+			if ((disp.length() % 16) > 13) {
+				disp += "\n";
+			}
+			disp += c + " ";
+		}
+		txtareaUsedLetters.setText(disp);
+	}
+
+	private void displayFoundLetters() {
+		String disp = "";
+		for (Character c : hangman.getFoundLetters()) {
+			if ((disp.length() % 16) > 13) {
+				disp += "\n";
+			}
+			disp += c + " ";
+		}
+		txtareaFoundLetters.setText(disp);
 	}
 }
