@@ -8,13 +8,17 @@ public class Hangman {
 	private ArrayList<Character> foundLetters;
 	private Word word;
 	private int totalGuess;
-	private final int guessLimit = 10;
+	public final int guessLimit = 5;
 
 	public Hangman(String category) {
 		usedLetters = new ArrayList<>();
 		foundLetters = new ArrayList<>();
 		word = new WordChooser(category).chooseWord();
 		totalGuess = 0;
+	}
+
+	public boolean isUsedLetter(char ch) {
+		return usedLetters.contains(ch);
 	}
 
 	/**
@@ -25,9 +29,6 @@ public class Hangman {
 	 * @return boolean
 	 */
 	public boolean makeGuess(char ch) {
-		if (usedLetters.contains(ch)) {
-			return false;
-		}
 		boolean result = false;
 		if (word.contains(ch)) {
 			foundLetters.add(ch);
@@ -96,6 +97,14 @@ public class Hangman {
 
 	public void setFoundLetters(ArrayList<Character> foundLetters) {
 		this.foundLetters = foundLetters;
+	}
+
+	public int getTotalGuess() {
+		return totalGuess;
+	}
+
+	public void setTotalGuess(int totalGuess) {
+		this.totalGuess = totalGuess;
 	}
 
 }

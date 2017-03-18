@@ -1,6 +1,8 @@
 package hangman;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Graphics;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -12,8 +14,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
+import java.awt.Font;
 
 public class Game extends JFrame {
 
@@ -32,6 +34,11 @@ public class Game extends JFrame {
 	private JTextField txtfldCategory;
 	private JTextArea txtareaUsedLetters;
 	private JTextArea txtareaFoundLetters;
+	private JLabel lblLives;
+	private JTextField txtfldLives;
+	private JPanel drawPanel;
+	private JLabel lblResult;
+	private JLabel lblResultWord;
 
 	/**
 	 * Launch the application.
@@ -75,11 +82,11 @@ public class Game extends JFrame {
 		comboBox.setBounds(20, 20, 150, 27);
 		comboBox.addItem("animals");
 		comboBox.addItem("cities");
-		comboBox.addItem("instruments");
 		contentPane.add(comboBox);
 
 		lblInfo = new JLabel("");
-		lblInfo.setBounds(122, 164, 281, 16);
+		lblInfo.setForeground(Color.RED);
+		lblInfo.setBounds(20, 197, 281, 16);
 		contentPane.add(lblInfo);
 
 		txtfldGuess = new JTextField();
@@ -161,6 +168,26 @@ public class Game extends JFrame {
 		JLabel lblFoundLetters = new JLabel("found letters");
 		lblFoundLetters.setBounds(412, 277, 88, 16);
 		contentPane.add(lblFoundLetters);
+
+		lblLives = new JLabel("lives:");
+		lblLives.setBounds(20, 225, 61, 16);
+		contentPane.add(lblLives);
+
+		txtfldLives = new JTextField();
+		txtfldLives.setBounds(93, 220, 25, 26);
+		txtfldLives.setEditable(false);
+		contentPane.add(txtfldLives);
+		txtfldLives.setColumns(10);
+
+		lblResult = new JLabel("");
+		lblResult.setFont(new Font("Lucida Grande", Font.PLAIN, 30));
+		lblResult.setBounds(20, 100, 150, 52);
+		contentPane.add(lblResult);
+
+		lblResultWord = new JLabel("");
+		lblResultWord.setBounds(20, 164, 150, 16);
+		contentPane.add(lblResultWord);
+
 	}
 
 	/**
@@ -182,37 +209,64 @@ public class Game extends JFrame {
 		txtfldWord.setText(disp);
 	}
 
+	class HangmanPanel extends JPanel {
+
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		protected void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			switch (hangman.getTotalGuess()) {
+			case 5:
+				g.drawLine(115, 180, 90, 200);
+				g.drawLine(115, 180, 140, 200);
+			case 4:
+				g.drawLine(115, 100, 90, 140);
+				g.drawLine(115, 100, 140, 140);
+			case 3:
+				g.drawLine(115, 90, 115, 180);
+			case 2:
+				g.drawOval(90, 40, 50, 50);
+			case 1:
+				g.fillRect(110, 30, 10, 10);
+				g.fillRect(20, 20, 100, 10);
+				g.fillRect(20, 20, 10, 200);
+				break;
+			}
+		}
+	}
+
 	private void tryButtonClicked() {
 		if (txtfldGuess.getText().equals("")) {
-			lblInfo.setText("enter a letter");
+			lblInfo.setText("Enter a letter!");
 			return;
 		}
 		guess = Character.toUpperCase(guess);
+		if(hangman.isUsedLetter(guess)){
+			lblInfo.setText("You have already tried that letter!");
+			return;
+		}
 		if (hangman.makeGuess(guess)) {
 			lblInfo.setText("Good Job!");
 		} else {
 			lblInfo.setText("Shame!");
 		}
+		drawPanel.repaint();
 		displayWord();
+		displayLives();
 		displayUsedLetters();
 		displayFoundLetters();
-		Object[] options = { "Yes", "No" };
 		if (hangman.win()) {
-			int choice = JOptionPane.showOptionDialog(this,
-					"Word: " + hangman.getWord().getContent() + ". Do you want to start a new game?", "You Win",
-					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+			lblResult.setForeground(Color.GREEN);
+			lblResult.setText("WIN");
 			txtfldGuess.setEnabled(false);
 			btnTry.setEnabled(false);
-			if (choice == 0)
-				startButtonClicked();
 		} else if (hangman.lose()) {
-			int choice = JOptionPane.showOptionDialog(this,
-					"Word: " + hangman.getWord().getContent() + ". Do you want to start a new game?", "You Lose",
-					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+			lblResult.setForeground(Color.RED);
+			lblResult.setText("LOSE");
+			lblResultWord.setText("word:  " + hangman.getWord().getContent());
 			txtfldGuess.setEnabled(false);
 			btnTry.setEnabled(false);
-			if (choice == 0)
-				startButtonClicked();
 		}
 		txtfldGuess.setText("");
 		txtfldGuess.grabFocus();
@@ -221,9 +275,19 @@ public class Game extends JFrame {
 	private void startButtonClicked() {
 		String category = (String) comboBox.getSelectedItem();
 		hangman = new Hangman(category);
+		drawPanel = new HangmanPanel();
+		drawPanel.setBounds(263, 20, 245, 217);
+		contentPane.add(drawPanel);
+		drawPanel.repaint();
 		btnTry.setEnabled(true);
 		txtfldGuess.setEnabled(true);
 		displayWord();
+		displayLives();
+		lblResultWord.setText("");
+		txtareaFoundLetters.setText("");
+		lblResult.setText("");
+		lblInfo.setText("");
+		txtareaUsedLetters.setText("");
 		txtfldGuess.grabFocus();
 		txtfldCategory.setText(hangman.getWord().getCategory());
 	}
@@ -248,5 +312,9 @@ public class Game extends JFrame {
 			disp += c + " ";
 		}
 		txtareaFoundLetters.setText(disp);
+	}
+
+	private void displayLives() {
+		txtfldLives.setText(hangman.guessLimit - hangman.getTotalGuess() + "");
 	}
 }
