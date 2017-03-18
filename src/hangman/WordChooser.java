@@ -14,20 +14,20 @@ public class WordChooser {
 	private BufferedReader bufferRead;
 	private ArrayList<Word> words;
 	private String category;
-	
-	public WordChooser(String category) {		
+
+	public WordChooser(String category) {
 		words = new ArrayList<>();
-		this.category=category;
+		this.category = category;
 	}
 
 	private void OpenFile() {
 
 		try {
-			File Words = new File(category + ".txt");
+			File Words = new File("words.txt");
 			fileRead = new FileReader(Words);
 		} catch (FileNotFoundException ex) {
 			System.err.println(
-					"Dosya Açýlýrken Hata Oluþtu.\n Dosyanýn Uzantýsýný Ve Konumunu Kontrol Edin Yada Dosyayý Yeniden Yaratýn.\n Sorun Çözülmez Ýse Lütfen Mail Atýn.");
+					"An error occurred while opening file. Please check the file path. Contact with me via e-mail below.");
 			System.err.println("'sinan.kucukyilmaz@std.izmirekonomi.edu.tr'");
 			System.exit(1);
 		}
@@ -44,7 +44,8 @@ public class WordChooser {
 				String[] splitLine = line.split(",");
 				String content = splitLine[0];
 				String category = splitLine[1];
-				words.add(new Word(content, category));
+				if (category.equals(this.category))
+					words.add(new Word(content, category));
 			}
 		} catch (IOException ex) {
 			System.err.println("Error while reading file.");
@@ -58,8 +59,8 @@ public class WordChooser {
 		}
 
 	}
-	
-	public Word chooseWord(){
+
+	public Word chooseWord() {
 		OpenFile();
 		ReadFile();
 		Random rndm = new Random();

@@ -12,6 +12,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
 public class Game extends JFrame {
@@ -104,7 +105,7 @@ public class Game extends JFrame {
 				guess = input;
 			}
 		});
-		txtfldGuess.setBounds(90, 344, 130, 26);
+		txtfldGuess.setBounds(90, 344, 25, 26);
 		txtfldGuess.setEnabled(false);
 		contentPane.add(txtfldGuess);
 		txtfldGuess.setColumns(10);
@@ -192,18 +193,27 @@ public class Game extends JFrame {
 		} else {
 			lblInfo.setText("Shame!");
 		}
-		if (hangman.win()) {
-			lblInfo.setText("You Win!");
-			txtfldGuess.setEnabled(false);
-			btnTry.setEnabled(false);
-		} else if (hangman.lose()) {
-			lblInfo.setText("You Lose!   word was " + hangman.getWord().getContent());
-			txtfldGuess.setEnabled(false);
-			btnTry.setEnabled(false);
-		}
 		displayWord();
 		displayUsedLetters();
 		displayFoundLetters();
+		Object[] options = { "Yes", "No" };
+		if (hangman.win()) {
+			int choice = JOptionPane.showOptionDialog(this,
+					"Word: " + hangman.getWord().getContent() + ". Do you want to start a new game?", "You Win",
+					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+			txtfldGuess.setEnabled(false);
+			btnTry.setEnabled(false);
+			if (choice == 0)
+				startButtonClicked();
+		} else if (hangman.lose()) {
+			int choice = JOptionPane.showOptionDialog(this,
+					"Word: " + hangman.getWord().getContent() + ". Do you want to start a new game?", "You Lose",
+					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+			txtfldGuess.setEnabled(false);
+			btnTry.setEnabled(false);
+			if (choice == 0)
+				startButtonClicked();
+		}
 		txtfldGuess.setText("");
 		txtfldGuess.grabFocus();
 	}

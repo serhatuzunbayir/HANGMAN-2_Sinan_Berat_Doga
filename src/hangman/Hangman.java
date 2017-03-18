@@ -8,7 +8,7 @@ public class Hangman {
 	private ArrayList<Character> foundLetters;
 	private Word word;
 	private int totalGuess;
-	private final int guessLimit = 15;
+	private final int guessLimit = 10;
 
 	public Hangman(String category) {
 		usedLetters = new ArrayList<>();
