@@ -219,13 +219,13 @@ public class Game extends JFrame {
 			super.paintComponent(g);
 			switch (hangman.getTotalGuess()) {
 			case 5:
-				g.drawLine(115, 180, 90, 200);
-				g.drawLine(115, 180, 140, 200);
+				g.drawLine(115, 150, 90, 240);
+				g.drawLine(115, 150, 140, 240);
 			case 4:
 				g.drawLine(115, 100, 90, 140);
 				g.drawLine(115, 100, 140, 140);
 			case 3:
-				g.drawLine(115, 90, 115, 180);
+				g.drawLine(115, 90, 115, 150);
 			case 2:
 				g.drawOval(90, 40, 50, 50);
 			case 1:
