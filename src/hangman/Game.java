@@ -82,6 +82,7 @@ public class Game extends JFrame {
 		comboBox.setBounds(20, 20, 150, 27);
 		comboBox.addItem("animals");
 		comboBox.addItem("cities");
+		comboBox.addItem("software");
 		contentPane.add(comboBox);
 
 		lblInfo = new JLabel("");
@@ -128,7 +129,7 @@ public class Game extends JFrame {
 		contentPane.add(btnTry);
 
 		txtfldWord = new JTextField();
-		txtfldWord.setBounds(93, 306, 130, 26);
+		txtfldWord.setBounds(93, 306, 150, 26);
 		txtfldWord.setEditable(false);
 		contentPane.add(txtfldWord);
 		txtfldWord.setColumns(10);
@@ -146,7 +147,7 @@ public class Game extends JFrame {
 		contentPane.add(lblCategory);
 
 		txtfldCategory = new JTextField();
-		txtfldCategory.setBounds(93, 268, 130, 26);
+		txtfldCategory.setBounds(93, 268, 150, 26);
 		txtfldCategory.setEditable(false);
 		contentPane.add(txtfldCategory);
 		txtfldCategory.setColumns(10);
