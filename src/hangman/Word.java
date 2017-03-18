@@ -14,7 +14,7 @@ public class Word {
 
 	public boolean contains(char ch) {
 		for (int i = 0; i < length; i++) {
-			if (Character.toUpperCase(content.charAt(i)) == ch) {
+			if (content.charAt(i) == ch) {
 				return true;
 			}
 		}

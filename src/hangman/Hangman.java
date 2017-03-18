@@ -11,8 +11,8 @@ public class Hangman {
 	private final int guessLimit = 5;
 
 	public Hangman(String category) {
-		usedLetters = null;
-		foundLetters = null;
+		usedLetters = new ArrayList<>();
+		foundLetters = new ArrayList<>();
 		word = new WordChooser(category).chooseWord();
 		totalGuess = 0;
 	}
@@ -40,7 +40,8 @@ public class Hangman {
 	 * Returns true if the given char was found, false otherwise.
 	 * 
 	 * @author Horse
-	 * @param ch The char to be checked.
+	 * @param ch
+	 *            The char to be checked.
 	 * @return
 	 */
 	public boolean wasFound(char ch) {
