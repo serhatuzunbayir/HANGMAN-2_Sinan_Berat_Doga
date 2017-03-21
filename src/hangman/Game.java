@@ -33,7 +33,6 @@ public class Game extends JFrame {
 	private char guess;
 	private JTextField txtfldCategory;
 	private JTextArea txtareaUsedLetters;
-	private JTextArea txtareaFoundLetters;
 	private JLabel lblLives;
 	private JTextField txtfldLives;
 	private JPanel drawPanel;
@@ -109,8 +108,11 @@ public class Game extends JFrame {
 				} else if (txtfldGuess.getText().length() > 0) {
 					e.consume();
 					txtfldGuess.setText(e.getKeyChar() + "");
+					guess = input;
+				} else {
+					guess = input;
 				}
-				guess = input;
+				
 			}
 		});
 		txtfldGuess.setBounds(90, 344, 25, 26);
@@ -129,7 +131,7 @@ public class Game extends JFrame {
 		contentPane.add(btnTry);
 
 		txtfldWord = new JTextField();
-		txtfldWord.setBounds(93, 306, 150, 26);
+		txtfldWord.setBounds(93, 306, 168, 26);
 		txtfldWord.setEditable(false);
 		contentPane.add(txtfldWord);
 		txtfldWord.setColumns(10);
@@ -147,28 +149,19 @@ public class Game extends JFrame {
 		contentPane.add(lblCategory);
 
 		txtfldCategory = new JTextField();
-		txtfldCategory.setBounds(93, 268, 150, 26);
+		txtfldCategory.setBounds(93, 268, 168, 26);
 		txtfldCategory.setEditable(false);
 		contentPane.add(txtfldCategory);
 		txtfldCategory.setColumns(10);
 
 		txtareaUsedLetters = new JTextArea();
-		txtareaUsedLetters.setBounds(263, 311, 112, 100);
+		txtareaUsedLetters.setBounds(337, 311, 112, 100);
 		txtareaUsedLetters.setEditable(false);
 		contentPane.add(txtareaUsedLetters);
 
-		txtareaFoundLetters = new JTextArea();
-		txtareaFoundLetters.setBounds(400, 311, 112, 100);
-		txtareaFoundLetters.setEditable(false);
-		contentPane.add(txtareaFoundLetters);
-
 		JLabel lblUsedLetters = new JLabel("used letters");
-		lblUsedLetters.setBounds(279, 277, 80, 16);
+		lblUsedLetters.setBounds(350, 277, 80, 16);
 		contentPane.add(lblUsedLetters);
-
-		JLabel lblFoundLetters = new JLabel("found letters");
-		lblFoundLetters.setBounds(412, 277, 88, 16);
-		contentPane.add(lblFoundLetters);
 
 		lblLives = new JLabel("lives:");
 		lblLives.setBounds(20, 225, 61, 16);
@@ -219,9 +212,10 @@ public class Game extends JFrame {
 			super.paintComponent(g);
 			switch (hangman.getTotalGuess()) {
 			case 5:
+				g.clearRect(100, 50, 10, 10);
 				g.drawLine(115, 150, 90, 200);
 				g.drawLine(115, 150, 140, 200);
-				
+				g.drawArc(90, 75, 50, 50, 65, 50);
 				g.drawLine(100, 50, 110, 60);
 				g.drawLine(120, 50, 130, 60);
 				g.drawLine(130, 50, 120, 60);
@@ -264,7 +258,6 @@ public class Game extends JFrame {
 		displayWord();
 		displayLives();
 		displayUsedLetters();
-		displayFoundLetters();
 		if (hangman.win()) {
 			lblResult.setForeground(Color.GREEN);
 			lblResult.setText("WIN");
@@ -293,7 +286,6 @@ public class Game extends JFrame {
 		displayWord();
 		displayLives();
 		lblResultWord.setText("");
-		txtareaFoundLetters.setText("");
 		lblResult.setText("");
 		lblInfo.setText("");
 		txtareaUsedLetters.setText("");
@@ -310,17 +302,6 @@ public class Game extends JFrame {
 			disp += c + " ";
 		}
 		txtareaUsedLetters.setText(disp);
-	}
-
-	private void displayFoundLetters() {
-		String disp = "";
-		for (Character c : hangman.getFoundLetters()) {
-			if ((disp.length() % 16) > 13) {
-				disp += "\n";
-			}
-			disp += c + " ";
-		}
-		txtareaFoundLetters.setText(disp);
 	}
 
 	private void displayLives() {
