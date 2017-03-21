@@ -12,7 +12,6 @@ CROW,animals
 DINOSAOUR,animals
 DOLPHIN,animals
 GORILLA,animals
-DRAGON,animals
 HORSE,animals
 LIZARD,animals
 MAMMOTH,animals
@@ -22,7 +21,6 @@ SCORPION,animals
 SHARK,animals
 SHEEP,animals
 SNAKE,animals
-SPARROW,animals
 TORTOISE,animals
 ZEBRA,animals
 YAK,animals
@@ -80,8 +78,12 @@ DEFECT,software
 DATA,software
 COMPLEXITY,software
 FAILURE,software
-GITHUB,software
 METHOD,software
 FUNCTION,software
 ANALYSIS,software
 IMPLEMENTATION,software
+NORWAY,country
+ESTONIA,country
+TURKEY,country
+SWORD,weapon
+BOW,weapon

@@ -8,16 +8,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.JComboBox;
+
 public class WordChooser {
 
 	private FileReader fileRead;
 	private BufferedReader bufferRead;
 	private ArrayList<Word> words;
 	private String category;
-
+	public ArrayList<String> categories;
 	public WordChooser(String category) {
 		words = new ArrayList<>();
 		this.category = category;
+	}
+	public WordChooser()
+	{
+		
 	}
 
 	private void OpenFile() {
@@ -35,7 +41,7 @@ public class WordChooser {
 	}
 
 	private void ReadFile() {
-
+		
 		bufferRead = new BufferedReader(fileRead);
 		String line;
 
@@ -44,8 +50,38 @@ public class WordChooser {
 				String[] splitLine = line.split(",");
 				String content = splitLine[0];
 				String category = splitLine[1];
+				
 				if (category.equals(this.category))
 					words.add(new Word(content, category));
+			}
+		} catch (IOException ex) {
+			System.err.println("Error while reading file.");
+		} finally {
+			try {
+				fileRead.close();
+				bufferRead.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+	public void ReadFileFillCategories(JComboBox c) {
+		OpenFile();
+		categories = new ArrayList<>();
+		bufferRead = new BufferedReader(fileRead);
+		String line;
+
+		try {
+			while ((line = bufferRead.readLine()) != null) {
+				String[] splitLine = line.split(",");
+				String content = splitLine[0];
+				String tempCategory = splitLine[1];
+				if(!categories.contains(tempCategory))
+				{
+					categories.add(tempCategory);
+					c.addItem(tempCategory);
+				}
 			}
 		} catch (IOException ex) {
 			System.err.println("Error while reading file.");

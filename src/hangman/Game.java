@@ -79,9 +79,9 @@ public class Game extends JFrame {
 
 		comboBox = new JComboBox<>();
 		comboBox.setBounds(20, 20, 150, 27);
-		comboBox.addItem("animals");
-		comboBox.addItem("cities");
-		comboBox.addItem("software");
+		
+		WordChooser comboFiller = new WordChooser();
+		comboFiller.ReadFileFillCategories(comboBox);
 		contentPane.add(comboBox);
 
 		lblInfo = new JLabel("");
