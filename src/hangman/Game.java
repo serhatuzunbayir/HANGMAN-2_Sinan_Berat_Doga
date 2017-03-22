@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Random;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
@@ -39,6 +40,7 @@ public class Game extends JFrame {
 	private JPanel drawPanel;
 	private JLabel lblResult;
 	private JLabel lblResultWord;
+	private ArrayList<String> categories ;
 
 	/**
 	 * Launch the application.
@@ -83,6 +85,7 @@ public class Game extends JFrame {
 		
 		WordChooser comboFiller = new WordChooser();
 		comboFiller.ReadFileFillCategories(comboBox);
+		categories = comboFiller.categories;
 		contentPane.add(comboBox);
 
 		lblInfo = new JLabel("");
@@ -281,7 +284,7 @@ public class Game extends JFrame {
 		if(category.equalsIgnoreCase("random"))
 		{
 			Random rand = new Random();
-			randomIndex = rand.nextInt(5);//This code will change to be generically in next commit
+			randomIndex = rand.nextInt(category.length());//This code will change to be generically in next commit
 			category = comboBox.getItemAt(randomIndex);
 			
 		}
