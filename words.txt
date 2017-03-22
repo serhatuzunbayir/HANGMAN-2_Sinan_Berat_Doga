@@ -9,6 +9,7 @@ BUTTERFLY,animals
 CAMEL,animals
 CHIMPANZEE,animals
 CROW,animals
+DRAGON,animals
 DINOSAOUR,animals
 DOLPHIN,animals
 GORILLA,animals
@@ -21,6 +22,7 @@ SCORPION,animals
 SHARK,animals
 SHEEP,animals
 SNAKE,animals
+SPARROW,animals
 TORTOISE,animals
 ZEBRA,animals
 YAK,animals
@@ -85,5 +87,8 @@ IMPLEMENTATION,software
 NORWAY,country
 ESTONIA,country
 TURKEY,country
+JAPAN,country
 SWORD,weapon
 BOW,weapon
+SPEAR,weapon
+RIFLE,weapon

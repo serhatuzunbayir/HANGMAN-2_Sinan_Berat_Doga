@@ -83,6 +83,7 @@ public class WordChooser {
 					c.addItem(tempCategory);
 				}
 			}
+			c.addItem("random");
 		} catch (IOException ex) {
 			System.err.println("Error while reading file.");
 		} finally {

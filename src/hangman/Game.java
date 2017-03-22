@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.Random;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
@@ -276,6 +277,14 @@ public class Game extends JFrame {
 
 	private void startButtonClicked() {
 		String category = (String) comboBox.getSelectedItem();
+		int randomIndex = 0;
+		if(category.equalsIgnoreCase("random"))
+		{
+			Random rand = new Random();
+			randomIndex = rand.nextInt(5);//This code will change to be generically in next commit
+			category = comboBox.getItemAt(randomIndex);
+			
+		}
 		hangman = new Hangman(category);
 		drawPanel = new HangmanPanel();
 		drawPanel.setBounds(263, 20, 245, 217);
